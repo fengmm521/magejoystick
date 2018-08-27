@@ -37,78 +37,107 @@ def main():
     movestep = 3
 
     while 1:
-      for event in pygame.event.get():
-        print(event.type)
-        if event.type == QUIT:
-          exit()
-        if event.type == JOYAXISMOTION:#游戏手柄(Joystick or pad)移动,joy, axis, value
-            print('JOYAXISMOTION')
-            print(event.joy,event.axis,event.value)
-            if event.axis == 0:#左右
-                if event.value > 0.01 or event.value < 0.01:
-                    move_x = movestep * event.value
-                elif event.value > 0.99:
-                    move_x = movestep
-                elif event.value < -0.99:
-                    move_x = -movestep
+        for event in pygame.event.get():
+            print(event.type)
+            if event.type == QUIT:
+                exit()
+            if event.type == JOYAXISMOTION:#游戏手柄(Joystick or pad)移动,joy, axis, value
+                print('JOYAXISMOTION')
+                print(event.joy,event.axis,event.value)
+                if event.axis == 0:#左右
+                    if event.value > 0.01 or event.value < 0.01:
+                        move_x = movestep * event.value
+                    elif event.value > 0.99:
+                        move_x = movestep
+                    elif event.value < -0.99:
+                        move_x = -movestep
+                    else:
+                        move_y = 0
+                        move_x = 0
+                elif event.axis == 1:#上下
+                    if event.value > 0.01 or event.value < 0.01:
+                        move_y = movestep * event.value
+                    elif event.value > 0.99:
+                        move_y = movestep
+                    elif event.value < -0.99:
+                        move_y = -movestep
+                    else:
+                        move_y = 0
+                        move_x = 0
+                elif event.axis == 3:#左右
+                    if event.value > 0.01 or event.value < 0.01:
+                        move_x = movestep * event.value
+                    elif event.value > 0.99:
+                        move_x = movestep
+                    elif event.value < -0.99:
+                        move_x = -movestep
+                    else:
+                        move_y = 0
+                        move_x = 0
+                elif event.axis == 4:#上下
+                    if event.value > 0.01 or event.value < 0.01:
+                        move_y = movestep * event.value
+                    elif event.value > 0.99:
+                        move_y = movestep
+                    elif event.value < -0.99:
+                        move_y = -movestep
+                    else:
+                        move_y = 0
+                        move_x = 0
                 else:
                     move_y = 0
                     move_x = 0
-            if event.axis == 1:#上下
-                if event.value > 0.01 or event.value < 0.01:
-                    move_y = movestep * event.value
-                elif event.value > 0.99:
-                    move_y = movestep
-                elif event.value < -0.99:
-                    move_y = -movestep
-                else:
-                    move_y = 0
-                    move_x = 0
+                # if event.axis == 
 
 
-        if event.type == JOYBALLMOTION:#游戏球(Joy ball)?移动,joy, axis, value
-            print('JOYBALLMOTION')
-            print(event.joy,event.axis,event.value)
+            elif event.type == JOYBALLMOTION:#游戏球(Joy ball)?移动,joy, axis, value
+                print('JOYBALLMOTION')
+                print(event.joy,event.axis,event.value)
 
-        if event.type == JOYHATMOTION: #游戏手柄(Joystick)?移动,joy, axis, value
-            print('JOYBALLMOTION')
-            print(event.joy,event.axis,event.value)
+            elif event.type == JOYHATMOTION: #游戏手柄(Joystick)?移动,joy, axis, value
+                print('JOYBALLMOTION')
+                print(event.joy,event.axis,event.value)
 
-        if event.type == JOYBUTTONDOWN: #游戏手柄按下,joy, button
-            print('JOYBUTTONDOWN')
-            print(event.joy,event.button)
+            elif event.type == JOYBUTTONDOWN:   #游戏手柄按下,joy, button
+                print('JOYBUTTONDOWN')
+                print(event.joy,event.button)
 
-        if event.type == JOYBUTTONUP: #游戏手柄按下,joy, button
-            print('JOYBUTTONUP')
-            print(event.joy,event.button)
+            elif event.type == JOYBUTTONUP:     #游戏手柄弹起,joy, button
+                print('JOYBUTTONUP')
+                print(event.joy,event.button)
 
 
-        if event.type == KEYDOWN:
-          print(event.key)
-          #event.key返回的是一个数字值，而K_LEFT,K_UP,K_RIGHT,K_DOWN等都是常量，
-          #他们代表的也是一个数字值，这些数字值可以用：print(event.key)获取到
-          #如：K_LEFT = 276
-          #  K_UP = 273
-          #所以下面的代码可以替换为：
-          #if event.key == 276:
-          #  move_x = -10
-          if event.key == K_LEFT:
-            move_x = -10
-          elif event.key == K_UP:
-            move_y = -10
-          elif event.key == K_RIGHT:
-            move_x = 10
-          elif event.key == K_DOWN:
-            move_y = 10
-        elif event.type == KEYUP:
-          move_x = 0
-          move_y = 0
-        x += move_x
-        y += move_y
-        #print(x, y)
-        screen.fill((0, 0, 0))
-        screen.blit(bg, (x, y))
-        pygame.display.update()
+            elif event.type == KEYDOWN:         #按键按下
+                print('KEYDOWN')
+                print(event.key)
+                #event.key返回的是一个数字值，而K_LEFT,K_UP,K_RIGHT,K_DOWN等都是常量，
+                #他们代表的也是一个数字值，这些数字值可以用：print(event.key)获取到
+                #如：K_LEFT = 276
+                #  K_UP = 273
+                #所以下面的代码可以替换为：
+                #if event.key == 276:
+                #  move_x = -10
+                if event.key == K_LEFT:         #方向左按下
+                    move_x = -10
+                elif event.key == K_UP:         #方向上按下
+                    move_y = -10
+                elif event.key == K_RIGHT:      #方向右按下
+                    move_x = 10
+                elif event.key == K_DOWN:       #方向下按下
+                    move_y = 10
+            elif event.type == KEYUP:           #按键弹起
+                print('KEYUP')
+                move_x = 0
+                move_y = 0
+            elif event.type == MOUSEMOTION:     #鼠标移动
+                print('MOUSEMOTION')
+                print(event.pos)
+            x += move_x
+            y += move_y
+            #print(x, y)
+            screen.fill((0, 0, 0))
+            screen.blit(bg, (x, y))
+            pygame.display.update()
 
 if __name__ == '__main__':
     main()
