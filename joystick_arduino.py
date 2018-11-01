@@ -3,6 +3,8 @@
 import pygame
 from pygame.locals import *
 from sys import exit
+import serial
+import time
 
 BG_IMAGE = 'ball.png'
 '''
@@ -23,6 +25,57 @@ BG_IMAGE = 'ball.png'
   VIDEOEXPOSE         Pygame窗口部分公开(expose)      none
   USEREVENT         触发了一个用户事件          code
 '''
+Ser = serial.Serial('/dev/cu.usbmodem14121',115200,timeout=0.5)
+ser = Ser
+print(ser.name)
+print(ser.port)
+print(ser.baudrate) #波特率
+print(ser.bytesize) #字节大小
+print(ser.parity) #校验位N－无校验，E－偶校验，O－奇校验
+print(ser.stopbits) #停止位
+print(ser.timeout) #读超时设置
+print(ser.writeTimeout) #写超时
+print(ser.xonxoff) #软件流控
+print(ser.rtscts) #硬件流控
+print(ser.dsrdtr) #硬件流控
+print(ser.interCharTimeout) #字符间隔超时
+# --------------------- 
+# 作者：huayucong 
+# 来源：CSDN 
+# 原文：https://blog.csdn.net/huayucong/article/details/48729907 
+# 版权声明：本文为博主原创文章，转载请附上博文链接！
+
+def sendComData(sendChar):
+    print Ser.portstr
+    print('send=',sendChar)
+    n = Ser.write(chr(sendChar))
+    time.sleep(0.015)
+    n = Ser.inWaiting()
+    # time.sleep(0.006)
+    comstr = Ser.read(n)
+    if comstr and comstr != '':
+        print('comstr=%x'%(ord(comstr)))
+        return ord(comstr)
+    return ''
+
+def conventJoystickType(isLeft,isRight,isAttack,isJump,isFire):
+    dat = 0
+    if isLeft:
+        tmp = 0b01 << 4
+        dat += tmp
+    if isRight:
+        tmp = 0b01 << 3
+        dat += tmp
+    if isAttack:
+        tmp = 0b01 << 2
+        dat += tmp
+    if isJump:
+        tmp = 0b01 << 1
+        dat += tmp
+    if isFire:
+        dat += 1
+    return dat
+
 def main():
     pygame.init()
     count = pygame.joystick.get_count()
@@ -71,17 +124,25 @@ def main():
                         move_y = 0
                         move_x = 0
                 elif event.axis == 3:#左右
-                    if event.value > 0.01 or event.value < 0.01:
-                        move_x = movestep * event.value
-                    elif event.value > 0.99:
+                    print('xxx')
+                    if event.value > 0.99:
                         move_x = movestep
+                        #右按键被按下
+                        print('right down,left up')
+                        isRight = True
+                        isLeft = False
                     elif event.value < -0.99:
                         move_x = -movestep
+                        #左按键被按下
+                        print('left down,right up')
+                        isLeft = True
+                        isRight = False
                     else:
                         move_y = 0
                         move_x = 0
                         isLeft = False
                         isRight = False
+                        print('方向键弹起')
                 elif event.axis == 4:#上下
                     if event.value > 0.01 or event.value < 0.01:
                         move_y = movestep * event.value
@@ -109,11 +170,34 @@ def main():
             elif event.type == JOYBUTTONDOWN:   #游戏手柄按下,joy, button
                 print('JOYBUTTONDOWN')
                 print(event.joy,event.button)
+                if event.button == 3:      #普通攻击键按下事件
+                    print('attatk down')
+                    isAttack = True
+                elif event.button == 2:    #跳键按下事件
+                    print('jump down')
+                    isJump = True
+                elif event.button == 1:    #火球攻击按下事件
+                    print('fire down')
+                    isFire = True
+                else:                   #其他的手柄任意键我们认为是普通攻击按下事件
+                    print('attatk down2')
+                    isAttack = True
 
             elif event.type == JOYBUTTONUP:     #游戏手柄弹起,joy, button
                 print('JOYBUTTONUP')
                 print(event.joy,event.button)
-
+                if event.button == 3:      #普通攻击键弹起事件
+                    print('attatk up')
+                    isAttack = False
+                elif event.button == 2:    #跳键弹起事件
+                    print('jump up')
+                    isJump = False
+                elif event.button == 1:    #火球攻击弹起事件
+                    print('fire up')
+                    isFire = False
+                else:                   #其他的手柄任意键我们认为是普通攻击弹起事件
+                    print('attatk up2')
+                    isAttack = False
 
             elif event.type == KEYDOWN:         #按键按下
                 print('KEYDOWN')
@@ -146,7 +230,10 @@ def main():
             screen.fill((0, 0, 0))
             screen.blit(bg, (x, y))
             pygame.display.update()
-
+            dat = conventJoystickType(isLeft,isRight,isAttack,isJump,isFire)
+            print('dat=%x'%(dat))
+            combk = sendComData(dat)
+            print('combk=' + str(combk))
 if __name__ == '__main__':
     main()
 #在数据库中查找某行数据
