@@ -173,16 +173,16 @@ void loop() {
   //d=l
   //l=u
   //r=r
-//  bool isup = !digitalRead(bLeft);
-//  bool isright = !digitalRead(bRight);
-//  bool isdown = !digitalRead(bUp);
-//  bool isleft = !digitalRead(bDown);
+  bool isup = !digitalRead(bLeft);
+  bool isright = !digitalRead(bRight);
+  bool isdown = !digitalRead(bUp);
+  bool isleft = !digitalRead(bDown);
 
   
-  bool isleft = !digitalRead(bLeft);
-  bool isright = !digitalRead(bRight);
-  bool isup = !digitalRead(bUp);
-  bool isdown = !digitalRead(bDown);
+//  bool isleft = !digitalRead(bLeft);
+//  bool isright = !digitalRead(bRight);
+//  bool isup = !digitalRead(bUp);
+//  bool isdown = !digitalRead(bDown);
   if (isleft || isright) {
     if(isleft){
         if(isMouseRightUse){
