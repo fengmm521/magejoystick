@@ -92,16 +92,9 @@ void loop() {
     Gamepad.release(3);
   }
   if (!digitalRead(btn4)) {
-//    Gamepad.press(4);
-    // if(isRightYG){
       isRightYG = true;
-    // }
-    
-    // nowState |= (uint32_t)1 << 4; 
   }else{
-    // Gamepad.release(4);
-    isRightYG = false;
-    // nowState &= ~((uint32_t)1 << 4);
+      isRightYG = false;
   }
   if (!digitalRead(btn5)) {
     Gamepad.press(5);
