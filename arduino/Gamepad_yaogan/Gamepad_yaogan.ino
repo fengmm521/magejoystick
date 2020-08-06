@@ -192,6 +192,7 @@ void loop() {
             }
         }else{
           Gamepad.rxAxis(0);
+          Gamepad.xAxis(0);
           nowState &= ~((uint32_t)1 << 12);
           nowState &= ~((uint32_t)1 << 13);
         }
@@ -205,6 +206,7 @@ void loop() {
             }
         }else{
           Gamepad.ryAxis(0);
+          Gamepad.yAxis(0);
           nowState &= ~((uint32_t)1 << 14);
           nowState &= ~((uint32_t)1 << 15);
         }
@@ -218,6 +220,7 @@ void loop() {
               nowState |= (uint32_t)1 << 13; 
             }
         }else{
+          Gamepad.rxAxis(0);
           Gamepad.xAxis(0);
           nowState &= ~((uint32_t)1 << 12);
           nowState &= ~((uint32_t)1 << 13);
@@ -232,6 +235,7 @@ void loop() {
             }
         }else{
           Gamepad.yAxis(0);
+          Gamepad.ryAxis(0);
           nowState &= ~((uint32_t)1 << 14);
           nowState &= ~((uint32_t)1 << 15);
         }
@@ -245,5 +249,5 @@ void loop() {
     
     lastState = nowState;
   }
-  delay(15);
+  delay(20);
 }
