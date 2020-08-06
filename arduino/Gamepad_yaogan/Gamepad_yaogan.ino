@@ -44,7 +44,7 @@ const int bRight = A1;
 const int bDown = A2;
 const int bLeft = A3;
 
-uint32_t lastState = 0;
+
 
 void setup() {
   pinMode(btn1, INPUT_PULLUP);
@@ -71,29 +71,25 @@ void setup() {
 
 bool isRightYG = false;
 
+
+
 void loop() {
-  uint32_t nowState = 0x00;
+
   if (!digitalRead(btn1)) {
     Gamepad.press(1);
-    nowState |= (uint32_t)1 << 1; 
   }else{
     Gamepad.release(1);
-    nowState &= ~((uint32_t)1 << 1); 
   }
   if (!digitalRead(btn2)) {
     Gamepad.press(2);
-    nowState |= (uint32_t)1 << 2; 
   }
   else{
     Gamepad.release(2);
-    nowState &= ~((uint32_t)1 << 2); 
   }
   if (!digitalRead(btn3)) {
     Gamepad.press(3);
-    nowState |= (uint32_t)1 << 3; 
   }else{
     Gamepad.release(3);
-    nowState &= ~((uint32_t)1 << 3);
   }
   if (!digitalRead(btn4)) {
 //    Gamepad.press(4);
@@ -109,62 +105,49 @@ void loop() {
   }
   if (!digitalRead(btn5)) {
     Gamepad.press(5);
-    nowState |= (uint32_t)1 << 5; 
   }else{
     Gamepad.release(5);
-    nowState &= ~((uint32_t)1 << 5);
   }
   if (!digitalRead(btn6)) {
     Gamepad.press(6);
-    nowState |= (uint32_t)1 << 6; 
   }else{
     Gamepad.release(6);
-    nowState &= ~((uint32_t)1 << 6);
   }
   if (!digitalRead(btn7)) {
     Gamepad.press(7);
-    nowState |= (uint32_t)1 << 7; 
   }else{
     Gamepad.release(7);
-    nowState &= ~((uint32_t)1 << 7);
   }
   if (!digitalRead(btn8)) {
     Gamepad.press(8);
-    nowState |= (uint32_t)1 << 8; 
   }else{
     Gamepad.release(8);
-    nowState &= ~((uint32_t)1 << 8);
   }
-
+  // bool btnS1_state_now = false;
+  // bool btnS2_state_now = false;
+  // bool btnC1_state_now = false;
+  // bool btnC2_state_now = false;
   if (!digitalRead(btnS1)) {
     Gamepad.press(9);
-    nowState |= (uint32_t)1 << 9; 
   }else{
     Gamepad.release(9);
-    nowState &= ~((uint32_t)1 << 9);
   }
 
   if (!digitalRead(btnS2)) {
     Gamepad.press(10);
-    nowState |= (uint32_t)1 << 10; 
   }else{
     Gamepad.release(10);
-    nowState &= ~((uint32_t)1 << 10);
   }
 
   if (!digitalRead(btnC1)) {
     Gamepad.press(11);
-    nowState |= (uint32_t)1 << 11; 
   }else{
     Gamepad.release(11);
-    nowState &= ~((uint32_t)1 << 11);
   }
   if (!digitalRead(btnC2)) {
     Gamepad.press(12);
-    nowState |= (uint32_t)1 << 16; 
   }else{
     Gamepad.release(12);
-    nowState &= ~((uint32_t)1 << 16);
   }
 
   //u=d
@@ -185,69 +168,48 @@ void loop() {
         if (isleft || isright) {
           if(isleft){
             Gamepad.rxAxis(-32760);
-            nowState |= (uint32_t)1 << 12; 
           }else{
               Gamepad.rxAxis(32760);
-              nowState |= (uint32_t)1 << 13; 
             }
         }else{
           Gamepad.rxAxis(0);
           Gamepad.xAxis(0);
-          nowState &= ~((uint32_t)1 << 12);
-          nowState &= ~((uint32_t)1 << 13);
+
         }
         if (isup || isdown) {
           if(isdown){
             Gamepad.ryAxis(-32760);
-            nowState |= (uint32_t)1 << 14; 
           }else{
               Gamepad.ryAxis(32760);
-              nowState |= (uint32_t)1 << 15; 
             }
         }else{
           Gamepad.ryAxis(0);
           Gamepad.yAxis(0);
-          nowState &= ~((uint32_t)1 << 14);
-          nowState &= ~((uint32_t)1 << 15);
         }
     }else{
         if (isleft || isright) {
           if(isleft){
             Gamepad.xAxis(-32760);
-            nowState |= (uint32_t)1 << 12; 
           }else{
               Gamepad.xAxis(32760);
-              nowState |= (uint32_t)1 << 13; 
             }
         }else{
           Gamepad.rxAxis(0);
           Gamepad.xAxis(0);
-          nowState &= ~((uint32_t)1 << 12);
-          nowState &= ~((uint32_t)1 << 13);
         }
         if (isup || isdown) {
           if(isdown){
             Gamepad.yAxis(-32760);
-            nowState |= (uint32_t)1 << 14; 
           }else{
               Gamepad.yAxis(32760);
-              nowState |= (uint32_t)1 << 15; 
             }
         }else{
           Gamepad.yAxis(0);
           Gamepad.ryAxis(0);
-          nowState &= ~((uint32_t)1 << 14);
-          nowState &= ~((uint32_t)1 << 15);
         }
     }
 
-  if(lastState != nowState){
+  Gamepad.write();
 
-    Gamepad.write();
-
-    // Simple debounce
-    
-    lastState = nowState;
-  }
   delay(20);
 }
