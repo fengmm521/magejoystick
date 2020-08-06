@@ -69,6 +69,8 @@ void setup() {
   Gamepad.begin();
 }
 
+bool isRightYG = false;
+
 void loop() {
   uint32_t nowState = 0x00;
   if (!digitalRead(btn1)) {
@@ -94,11 +96,16 @@ void loop() {
     nowState &= ~((uint32_t)1 << 3);
   }
   if (!digitalRead(btn4)) {
-    Gamepad.press(4);
-    nowState |= (uint32_t)1 << 4; 
+//    Gamepad.press(4);
+    // if(isRightYG){
+      isRightYG = true;
+    // }
+    
+    // nowState |= (uint32_t)1 << 4; 
   }else{
-    Gamepad.release(4);
-    nowState &= ~((uint32_t)1 << 4);
+    // Gamepad.release(4);
+    isRightYG = false;
+    // nowState &= ~((uint32_t)1 << 4);
   }
   if (!digitalRead(btn5)) {
     Gamepad.press(5);
@@ -174,32 +181,61 @@ void loop() {
 //  bool isright = !digitalRead(bRight);
 //  bool isup = !digitalRead(bUp);
 //  bool isdown = !digitalRead(bDown);
-  if (isleft || isright) {
-    if(isleft){
-      Gamepad.xAxis(-32760);
-      nowState |= (uint32_t)1 << 12; 
+  if(isRightYG){
+        if (isleft || isright) {
+          if(isleft){
+            Gamepad.rxAxis(-32760);
+            nowState |= (uint32_t)1 << 12; 
+          }else{
+              Gamepad.rxAxis(32760);
+              nowState |= (uint32_t)1 << 13; 
+            }
+        }else{
+          Gamepad.rxAxis(0);
+          nowState &= ~((uint32_t)1 << 12);
+          nowState &= ~((uint32_t)1 << 13);
+        }
+        if (isup || isdown) {
+          if(isdown){
+            Gamepad.ryAxis(-32760);
+            nowState |= (uint32_t)1 << 14; 
+          }else{
+              Gamepad.ryAxis(32760);
+              nowState |= (uint32_t)1 << 15; 
+            }
+        }else{
+          Gamepad.ryAxis(0);
+          nowState &= ~((uint32_t)1 << 14);
+          nowState &= ~((uint32_t)1 << 15);
+        }
     }else{
-        Gamepad.xAxis(32760);
-        nowState |= (uint32_t)1 << 13; 
-      }
-  }else{
-    Gamepad.xAxis(0);
-    nowState &= ~((uint32_t)1 << 12);
-    nowState &= ~((uint32_t)1 << 13);
-  }
-  if (isup || isdown) {
-    if(isdown){
-      Gamepad.yAxis(-32760);
-      nowState |= (uint32_t)1 << 14; 
-    }else{
-        Gamepad.yAxis(32760);
-        nowState |= (uint32_t)1 << 15; 
-      }
-  }else{
-    Gamepad.yAxis(0);
-    nowState &= ~((uint32_t)1 << 14);
-    nowState &= ~((uint32_t)1 << 15);
-  }
+        if (isleft || isright) {
+          if(isleft){
+            Gamepad.xAxis(-32760);
+            nowState |= (uint32_t)1 << 12; 
+          }else{
+              Gamepad.xAxis(32760);
+              nowState |= (uint32_t)1 << 13; 
+            }
+        }else{
+          Gamepad.xAxis(0);
+          nowState &= ~((uint32_t)1 << 12);
+          nowState &= ~((uint32_t)1 << 13);
+        }
+        if (isup || isdown) {
+          if(isdown){
+            Gamepad.yAxis(-32760);
+            nowState |= (uint32_t)1 << 14; 
+          }else{
+              Gamepad.yAxis(32760);
+              nowState |= (uint32_t)1 << 15; 
+            }
+        }else{
+          Gamepad.yAxis(0);
+          nowState &= ~((uint32_t)1 << 14);
+          nowState &= ~((uint32_t)1 << 15);
+        }
+    }
 
   if(lastState != nowState){
 
