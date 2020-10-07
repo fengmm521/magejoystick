@@ -6,3 +6,4 @@
 另外还有一个python模拟鼠标和键盘输入的例子，后边再研究,文中用到了pyuserinput库:
 https://www.jianshu.com/p/552f96aa85dc
 
+可以使用为王者荣耀游戏摇杆
