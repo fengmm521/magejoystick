@@ -44,7 +44,11 @@ const int bRight = A1;
 const int bDown = A2;
 const int bLeft = A3;
 
-
+#define PAD_X_ -32768
+#define PAD_X  32768
+#define PAD_Y 32768
+#define PAD_Y_ -32768
+#define MIDE_XY 0
 
 void setup() {
   pinMode(btn1, INPUT_PULLUP);
@@ -160,45 +164,45 @@ void loop() {
   if(isRightYG){
         if (isleft || isright) {
           if(isleft){
-            Gamepad.rxAxis(-32760);
+            Gamepad.rxAxis(PAD_X_);
           }else{
-              Gamepad.rxAxis(32760);
+              Gamepad.rxAxis(PAD_X);
             }
         }else{
-          Gamepad.rxAxis(0);
-          Gamepad.xAxis(0);
+          Gamepad.rxAxis(MIDE_XY);
+          Gamepad.xAxis(MIDE_XY);
 
         }
         if (isup || isdown) {
           if(isdown){
-            Gamepad.ryAxis(-32760);
+            Gamepad.ryAxis(PAD_Y_);
           }else{
-              Gamepad.ryAxis(32760);
+              Gamepad.ryAxis(PAD_Y);
             }
         }else{
-          Gamepad.ryAxis(0);
-          Gamepad.yAxis(0);
+          Gamepad.ryAxis(MIDE_XY);
+          Gamepad.yAxis(MIDE_XY);
         }
     }else{
         if (isleft || isright) {
           if(isleft){
-            Gamepad.xAxis(-32760);
+            Gamepad.xAxis(PAD_X_);
           }else{
-              Gamepad.xAxis(32760);
+              Gamepad.xAxis(PAD_X);
             }
         }else{
-          Gamepad.rxAxis(0);
-          Gamepad.xAxis(0);
+          Gamepad.rxAxis(MIDE_XY);
+          Gamepad.xAxis(MIDE_XY);
         }
         if (isup || isdown) {
           if(isdown){
-            Gamepad.yAxis(-32760);
+            Gamepad.yAxis(PAD_Y_);
           }else{
-              Gamepad.yAxis(32760);
+              Gamepad.yAxis(PAD_Y);
             }
         }else{
-          Gamepad.yAxis(0);
-          Gamepad.ryAxis(0);
+          Gamepad.yAxis(MIDE_XY);
+          Gamepad.ryAxis(MIDE_XY);
         }
     }
 
