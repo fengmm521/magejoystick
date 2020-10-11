@@ -44,10 +44,10 @@ const int bRight = A1;
 const int bDown = A2;
 const int bLeft = A3;
 
-#define PAD_X_ -32768
-#define PAD_X  32768
-#define PAD_Y 32768
-#define PAD_Y_ -32768
+#define PAD_X_ -32760
+#define PAD_X  32760
+#define PAD_Y 32760
+#define PAD_Y_ -32760
 #define MIDE_XY 0
 
 void setup() {
